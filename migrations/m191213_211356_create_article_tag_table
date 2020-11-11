@@ -3,32 +3,34 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%article_tag}}`.
+ * Class m201111_195535_change_article_tag_table
  */
-class m191213_211356_create_article_tag_table extends Migration
+class m201111_195535_change_article_tag_table extends Migration
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function up()
-    {
-        $this->createTable('{{%article_tag}}', [
-            'id' => $this->primaryKey(),
-            'article_id'=>$this->integer(),
-            'tag_id'=>$this->integer()
-        ]);
+    public function safeUp()
+   
+   {
 
-        // creates index for column `user_id`
+    $this->createTable('article_tag', [
+            'id' => $this->primaryKey(),
+            'article_id' => $this->integer(),
+            'tag_id' => $this->integer(),
+            'created_at' => $this->dateTime(),
+         ]);
+
+        // creates index for column `post_id`
         $this->createIndex(
-            'tag_article_article_id',
+            'idx-article_tag-article_id',
             'article_tag',
             'article_id'
         );
 
-
-        // add foreign key for table `user`
+        // add foreign key for table `post`
         $this->addForeignKey(
-            'tag_article_article_id',
+            'fk-article_tag-article_id',
             'article_tag',
             'article_id',
             'article',
@@ -36,32 +38,69 @@ class m191213_211356_create_article_tag_table extends Migration
             'CASCADE'
         );
 
-        // creates index for column `user_id`
+        // creates index for column `tag_id`
         $this->createIndex(
-            'idx_tag_id',
+            'idx-article_article-tag_id',
             'article_tag',
             'tag_id'
         );
 
-
-        // add foreign key for table `user`
+        // add foreign key for table `tag`
         $this->addForeignKey(
-            'fk-tag_id',
+            'fk-article_tag-tag_id',
             'article_tag',
-            'tag_id',
+            'article_id',
             'tag',
             'id',
             'CASCADE'
         );
     }
 
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-   public function safeDown()
+    public function safeDown()
     {
-      $this->dropTable('{{%article_tag}}');
-      //$this->dropTable('{{%user}}');
-      
+        // drops foreign key for table `post`
+        $this->dropForeignKey(
+            'fk-article_tag-article_id',
+            'article_tag'
+        );
+
+        // drops index for column `post_id`
+        $this->dropIndex(
+            'idx-article_tag-article_id',
+            'article_tag'
+        );
+
+        // drops foreign key for table `tag`
+        $this->dropForeignKey(
+            'fk-article_tag-tag_id',
+            'article_tag'
+        );
+
+        // drops index for column `tag_id`
+        $this->dropIndex(
+            'idx-article_tag-tag_id',
+            'article_tag'
+        );
+
+        $this->dropTable('article_tag');
     }
+ 
+    /*
+    // Use up()/down() to run migration code without a transaction.
+    public function up()
+    {
+
+    }
+
+    public function down()
+    {
+        echo "m201111_195535_change_article_tag_table cannot be reverted.\n";
+
+        return false;
+    }
+    */
 }
