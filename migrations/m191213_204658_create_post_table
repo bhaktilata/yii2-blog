@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%post}}`.
  */
-class m191213_204658_create_post_table extends Migration
+class m201111_114638_create_post_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -16,19 +16,37 @@ class m191213_204658_create_post_table extends Migration
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
             'slug' => $this->string(),
-            'author' => $this->string(),
             'date' => $this->date(),
-            'metadesc' => $this->text(),
-            'metakey' => $this->text(),
+            'description' => $this->text(),
+            'keywords' => $this->text(),
             'short' => $this->text(),
             'content' => $this->text(),
             'image' => $this->string(),
             'hits' => $this->integer(),
             'status' => $this->integer(),
-            'category_id' => $this->integer(),
+            'user_id' => $this->integer()->defaultValue(1),
+            'category_id' => $this->integer()->defaultValue(0),
+            'created_at' => $this->datetime()->notNull(),
+            'updated_at' => $this->datetime(),
         ]);
     }
-
+    
+            // creates index for column `category_id`
+        $this->createIndex(
+            'idx-category_id',
+            '{{%post}}',
+            'category_id'
+        );
+        // add foreign key for table `category`
+        $this->addForeignKey(
+            'fk-category_id',
+            '{{%category}}',
+            'category_id',
+            '{{%post}}',
+            'id',
+            'CASCADE'
+        );
+    }
     /**
      * {@inheritdoc}
      */
@@ -37,4 +55,3 @@ class m191213_204658_create_post_table extends Migration
         $this->dropTable('{{%post}}');
     }
 }
-
