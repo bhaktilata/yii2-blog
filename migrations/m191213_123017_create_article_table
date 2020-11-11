@@ -2,27 +2,36 @@
 
 use yii\db\Migration;
 
-class m191213_123017_create_article_table extends Migration
+/**
+ * Handles the creation of table `{{%article}}`.
+ */
+class m201111_134715_create_article_table extends Migration
 {
-     public function safeUp()
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
     {
         $this->createTable('{{%article}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
+            'title_seo' => $this->string()->defaultValue(0),
             'slug' => $this->string(),
             'author' => $this->string(),
-            'date' => $this->date(),
-            'metadesc' => $this->text(),
-            'metakey' => $this->text(),
-            'short' => $this->text(),
-            'content' => $this->text(),
+            'description' => $this->text(),
+            'keywords' => $this->text(),
+            'introtext' => $this->text(),
+            'fulltext' => $this->text(),
             'image' => $this->string(),
             'hits' => $this->integer(),
             'status' => $this->integer(),
+            'user_id' => $this->integer()->defaultValue(1),
             'category_id' => $this->integer()->defaultValue(0),
+            'created_at' => $this->datetime()->notNull(),
+            'updated_at' => $this->datetime(),
         ]);
-        
-       // creates index for column `category_id`
+    
+            // creates index for column `category_id`
         $this->createIndex(
             'idx-category_id',
             '{{%article}}',
@@ -31,14 +40,18 @@ class m191213_123017_create_article_table extends Migration
         // add foreign key for table `category`
         $this->addForeignKey(
             'fk-category_id',
-            '{{%article}}',
+            '{{%category}}',
             'category_id',
             '{{%article}}',
             'id',
             'CASCADE'
         );
-       }   
-     public function safeDown()
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
     {
         $this->dropTable('{{%article}}');
     }
