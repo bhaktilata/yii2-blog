@@ -5,12 +5,12 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%tag}}`.
  */
-class m191213_211046_create_tag_table extends Migration
+class m201111_134842_create_tag_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
+   public function safeUp()
     {
         $this->createTable('{{%tag}}', [
             'id' => $this->primaryKey(),
