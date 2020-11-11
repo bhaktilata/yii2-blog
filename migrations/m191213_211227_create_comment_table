@@ -5,12 +5,12 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%comment}}`.
  */
-class m191213_211227_create_comment_table extends Migration
+class m201111_134923_create_comment_table extends Migration
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function up()
+   public function up()
     {
         $this->createTable('{{%comment}}', [
             'id' => $this->primaryKey(),
@@ -26,6 +26,7 @@ class m191213_211227_create_comment_table extends Migration
             'user_id'
         );
         // add foreign key for table `user`
+        // схема такая: таблица и колонка - связи между внешними ключами
         $this->addForeignKey(
             'fk-post-user_id',
             'comment',
@@ -41,6 +42,7 @@ class m191213_211227_create_comment_table extends Migration
             'article_id'
         );
         // add foreign key for table `article`
+         // схема такая: таблица и колонка - связи между внешними ключами
         $this->addForeignKey(
             'fk-article_id',
             'comment',
@@ -51,9 +53,9 @@ class m191213_211227_create_comment_table extends Migration
         );
     }
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%comment}}');
     }
