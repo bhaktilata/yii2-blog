@@ -5,12 +5,12 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%user}}`.
  */
-class m191213_211111_create_user_table extends Migration
+class m201111_134902_create_user_table extends Migration
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function up()
+   public function up()
     {
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
@@ -22,14 +22,11 @@ class m191213_211111_create_user_table extends Migration
             'status'=>$this->smallInteger(),
         ]);
     }
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%user}}');
-    } 
-    
-  
+    }
 }
